@@ -1,6 +1,7 @@
 <?php
 
 require_once 'core/app.php';
+require_once 'core/jwt.php';
 require_once 'core/response.php';
 require_once 'core/request.php';
 require_once 'core/database.php';

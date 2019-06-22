@@ -19,10 +19,16 @@ class Home extends Router{
          * > $model->modelTest();
          */
 
-        $this->req->method('post');
+        // $this->req->method('post');
+        $jwt = JWT::encode([
+            'memberId' => 1134
+        ], 'Developer');
+        $decoded = JWT::decode($jwt, 'Developer');
+
         $this->res->status(200)->json([
             'response' => true,
-            'msg' => 'Route -> /Home/index'
+            'msg' => 'Route -> /Home/index',
+            'decode' => $decoded
         ]);
 
        
