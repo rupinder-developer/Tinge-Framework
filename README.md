@@ -6,7 +6,7 @@ PHP Routing Framework for RESTFul API Development!
 
 `PHP JWT reference: https://github.com/firebase/php-jwt`
 
-**Supported Algos**: *HS256 (default), HS512, HS384, HS384, RS384, RS512*
+**Supported Algos**: *HS256 (default), HS512, HS384, RS256, RS384, RS512*
 
 Example with HS256 (default)
 -------

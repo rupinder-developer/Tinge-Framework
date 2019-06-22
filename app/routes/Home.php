@@ -19,22 +19,28 @@ class Home extends Router{
          * > $model->modelTest();
          */
 
-        // $this->req->method('post');
-        $jwt = JWT::encode([
-            'memberId' => 1134
-        ], 'Developer');
-        $decoded = JWT::decode($jwt, 'Developer');
-
+        $this->req->method('post');
         $this->res->status(200)->json([
             'response' => true,
             'msg' => 'Route -> /Home/index',
             'decode' => $decoded
         ]);
-
-       
     }
 
     public function test($name) {
+        // JWT Example
+        try {
+            $jwt = JWT::encode([
+                'memberId' => 1134
+            ], 'secret_key', 'HS512');
+            $decoded = JWT::decode($jwt, 'secret_key', array('HS512'));
+        } catch(Exception $e){
+            $this->res->status(422)->json([
+                'response' => false,
+                'msg' => 'Invalid Key'
+            ]);
+        }
+        
         $this->res->status(200)->json([
             'response' => true,
             'msg' => 'Route -> /Home/test/'.$name
