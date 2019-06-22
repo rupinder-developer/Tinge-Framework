@@ -1,3 +1,3 @@
 # PHP Routing Framework
 
-PHP Routing Framework for API Development!
+PHP Routing Framework for RESTFul API Development!
