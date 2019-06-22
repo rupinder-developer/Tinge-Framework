@@ -2,9 +2,11 @@
 
 class Model { 
     public $db;
+    public $response;
     
     public function __construct() {
         $this->db = new MySQL\Database();
+        $this->response = new Response;
     }
 
     public function helper($name) {

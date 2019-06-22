@@ -14,6 +14,7 @@ class App {
             $this->route = $url[0];
             unset($url[0]);
         } else {
+            http_response_code(404);
             die(json_encode([
                 'response' => false,
                 'msg' => 'Invalid Route'
@@ -24,6 +25,7 @@ class App {
             require_once 'app/routes/'.$this->route.'.php';
             $this->route = new $this->route;    
         } else {
+            http_response_code(404);
             die(json_encode([
                 'response' => false,
                 'msg' => 'Invalid Route'
@@ -43,12 +45,14 @@ class App {
             try {
                 call_user_func_array([$this->route, $this->method], $this->params);
             } catch (ArgumentCountError $e) {
+                http_response_code(404);
                 die(json_encode([
                     'response' => false,
                     'msg' => 'Invalid Route'
                 ]));
             }
         } else {
+            http_response_code(404);
             die(json_encode([
                 'response' => false,
                 'msg' => 'Invalid Route'

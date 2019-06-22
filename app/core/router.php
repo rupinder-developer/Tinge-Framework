@@ -3,9 +3,11 @@
 class Router { 
 
     public $request;
+    public $response;
 
     public function __construct() {
         $this->request = new Request;
+        $this->response = new Response;
     }
     
     public function model($name) {
