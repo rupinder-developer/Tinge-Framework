@@ -2,12 +2,12 @@
 
 class Router { 
 
-    public $request;
-    public $response;
+    public $req;
+    public $res;
 
     public function __construct() {
-        $this->request = new Request;
-        $this->response = new Response;
+        $this->req = new Request;
+        $this->res = new Response;
     }
     
     public function model($name) {
@@ -15,6 +15,7 @@ class Router {
             require_once 'app/models/'.$name.'.php';
             return new $name;
         } else {
+            http_response_code(500);
             die(json_encode([
                 'response' => false,
                 'msg' => 'Invalid Model Name'
@@ -27,6 +28,7 @@ class Router {
             require_once 'app/helpers/'.$name.'.php';
             return new $name;
         } else {
+            http_response_code(500);
             die(json_encode([
                 'response' => false,
                 'msg' => 'Invalid Model Name'

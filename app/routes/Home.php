@@ -2,11 +2,12 @@
 class Home extends Router{
     public function index() {
         /* 
-         * > $this->request->has('api_id', $_POST);
-         * > $this->request->has('api_id', $_GET);
-         * > $this->request->has(['username','password', 'api_id'], $_POST); # AND
-         * > $this->request->has(['username','password', 'api_id'], $_POST, 'OR'); # OR
+         * Read HTTP Request Body {JSON Data}
+         * > $this->req->body
+         * > Example: $this->req->body->firstName
          * 
+         * Validate HTTP Request Method 
+         * > $this->req->method('post');
          * 
          * Helpers Usage
          * > $obj = $this->helper('helper_name');
@@ -18,14 +19,17 @@ class Home extends Router{
          * > $model->modelTest();
          */
 
-        $this->response->status(200)->json([
+        $this->req->method('post');
+        $this->res->status(200)->json([
             'response' => true,
             'msg' => 'Route -> /Home/index'
         ]);
+
+       
     }
 
     public function test($name) {
-        $this->response->status(200)->json([
+        $this->res->status(200)->json([
             'response' => true,
             'msg' => 'Route -> /Home/test/'.$name
         ]);  

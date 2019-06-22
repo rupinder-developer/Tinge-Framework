@@ -7,6 +7,6 @@ class Response {
     }
 
     public function json($array, $options = 0) {
-        echo json_encode($array, $options);
+        die(json_encode($array, $options));
     }
 }

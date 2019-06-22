@@ -1,40 +1,20 @@
 <?php
 
 class Request {
+
+    public $body;
+
+    public function  __construct() {
+        $this->body = json_decode(file_get_contents('php://input'));
+    }
     
-    public function has($data, $method, $condition = NULL) {
-        if (is_array($data)) {
-            if($condition == 'OR') {
-                // OR Condition
-                $flag = false;
-                foreach($data as $item) {
-                    if (isset($method[$item]) && !empty($method[$item])) {
-                        $flag = true;
-                        break;
-                    } else {
-                        continue;
-                    }
-                }
-                return $flag;
-            } else { 
-                // AND Condition
-                $flag = true;
-                foreach($data as $item) {
-                    if (isset($method[$item]) && !empty($method[$item])) {
-                        continue;
-                    } else {
-                        $flag = false;
-                        break;
-                    }
-                }
-                return $flag;
-            }
-        } else {
-            if (isset($method[$data]) && !empty($method[$data])) {
-                return true;
-            } else {
-                return false;
-            }
-        } 
+    public function method($method) {
+        if ($_SERVER["REQUEST_METHOD"] != strtoupper($method)) {
+            http_response_code(404);
+            die(json_encode([
+                'response' => false,
+                'msg' => 'Invalid Route'
+            ]));
+        }
     }
 }
