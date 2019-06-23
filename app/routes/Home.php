@@ -27,23 +27,32 @@ class Home extends Router{
         ]);
     }
 
-    public function test($name) {
-        // JWT Example
-        try {
-            $jwt = JWT::encode([
-                'memberId' => 1134
-            ], 'secret_key', 'HS512');
-            $decoded = JWT::decode($jwt, 'secret_key', array('HS512'));
-        } catch(Exception $e){
-            $this->res->status(422)->json([
-                'response' => false,
-                'msg' => 'Invalid Key'
-            ]);
-        }
-        
+    public function encode() {
+        // JWT Encodeing Example
+        $jwt = JWT::encode([
+            'memberId' => 1134,
+            'iat' => time(), //Issued at
+            'nbf' => time() + 60, //Not Before 
+            'exp' => time() + (2 * 60) //Expiration Time
+        ], 'secret_key');
         $this->res->status(200)->json([
             'response' => true,
-            'msg' => 'Route -> /Home/test/'.$name
+            'jwtEncoded' => $jwt
         ]);  
+    }
+
+    public function decode() {
+        try {
+            $decode = JWT::decode($this->req->body->token, 'secret_key');
+        } catch (Exception $e) {
+            $this->res->status(401)->json([
+                'response' => false,
+                'msg' => 'Invalid Token'
+            ]); 
+        }
+        $this->res->status(200)->json([
+            'response' => true,
+            'jwtDecoded' => $decode
+        ]); 
     }
 }
