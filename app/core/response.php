@@ -9,4 +9,8 @@ class Response {
     public function json($array, $options = 0) {
         die(json_encode($array, $options));
     }
+
+    public function send($response) {
+        die($response);
+    }
 }
