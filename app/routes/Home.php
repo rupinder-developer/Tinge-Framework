@@ -20,7 +20,7 @@ class Home extends Router{
          */
 
         $this->req->method('get');
-        $this->res->status(200)->send([
+        $this->res->status(200)->json([
             'response' => true,
             'msg' => 'Route -> /Home/index'
         ]);
