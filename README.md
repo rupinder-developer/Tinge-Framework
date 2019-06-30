@@ -22,7 +22,7 @@ For building RESTFul APIs we have to only deal with helpers, models, routes. *Pl
     
 
 
-## Domentation
+## Documentation
 
 Let's take a deep dive and understand how to use this framework for building RESTFul APIs. 
 
@@ -42,20 +42,18 @@ class Member extends Router {
     }
 }
 ```
+**Note**: File name should exactly same as class name.
 
 Here you can see that we used `$this->res` variable to the send response.
 
-**Sending Response ($this->res)**
+**Send Response ($this->res)**
 
-We have basically three method for sending response.
+We have basically three ways for sending response.
 ```php
 $this->res->send('Raw Data');                                                   # Sending Raw Data
 $this->res->json(["response" => true, "msg" => "Your Message"]);                # Sending JSON Data
 $this->res->status(200).json(["response" => true, "msg" => "Your Message"]);    # Send Data along with HTTP Status Code
 ```
-**Note**: File name should exactly same as class name.
-
-
 
 
 
