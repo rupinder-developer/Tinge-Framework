@@ -7,6 +7,7 @@ class Response {
     }
 
     public function json($array, $options = 0) {
+        header('Content-Type: application/json');
         die(json_encode($array, $options));
     }
 
