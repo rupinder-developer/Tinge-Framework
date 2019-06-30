@@ -8,7 +8,7 @@ class Request {
     public function  __construct() {
         $this->body = file_get_contents('php://input');
         try {
-            $this->json = file_get_contents('php://input');
+            $this->json = json_decode(file_get_contents('php://input'));
         } catch (Exception $e) {
             $this->json = null;
         }
