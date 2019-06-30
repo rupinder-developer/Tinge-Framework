@@ -14,6 +14,7 @@ class App {
             $this->route = $url[0];
             unset($url[0]);
         } else {
+            header('Content-Type: application/json');
             http_response_code(404);
             die(json_encode([
                 'response' => false,
@@ -25,6 +26,7 @@ class App {
             require_once 'app/routes/'.$this->route.'.php';
             $this->route = new $this->route;    
         } else {
+            header('Content-Type: application/json');
             http_response_code(404);
             die(json_encode([
                 'response' => false,
@@ -45,6 +47,7 @@ class App {
             try {
                 call_user_func_array([$this->route, $this->method], $this->params);
             } catch (ArgumentCountError $e) {
+                header('Content-Type: application/json');
                 http_response_code(404);
                 die(json_encode([
                     'response' => false,
@@ -52,6 +55,7 @@ class App {
                 ]));
             }
         } else {
+            header('Content-Type: application/json');
             http_response_code(404);
             die(json_encode([
                 'response' => false,

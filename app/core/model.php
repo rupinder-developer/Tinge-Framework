@@ -14,6 +14,7 @@ class Model {
             require_once 'app/helpers/'.$name.'.php';
             return new $name;
         } else {
+            header('Content-Type: application/json');
             http_response_code(500);
             die(json_encode([
                 'response' => false,

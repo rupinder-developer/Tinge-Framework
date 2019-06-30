@@ -12,6 +12,7 @@ class Response {
     }
 
     public function send($response) {
+        header('Content-Type: text/plain');
         die($response);
     }
 }

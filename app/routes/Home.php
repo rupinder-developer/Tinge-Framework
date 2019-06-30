@@ -3,8 +3,8 @@ class Home extends Router{
     public function index() {
         /* 
          * Read HTTP Request Body {JSON Data}
-         * > $this->req->body
-         * > Example: $this->req->body->firstName
+         * > $this->req->json
+         * > Example: $this->req->json->firstName
          * 
          * Validate HTTP Request Method 
          * > $this->req->method('post');
@@ -20,6 +20,7 @@ class Home extends Router{
          */
 
         $this->req->method('get');
+        
         $this->res->status(200)->json([
             'response' => true,
             'msg' => 'Route -> /Home/index'
