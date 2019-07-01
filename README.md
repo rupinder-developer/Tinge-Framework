@@ -56,3 +56,13 @@ $this->res->send('Raw Data');                                                   
 $this->res->json(["response" => true, "msg" => "Your Message"]);                # Sending JSON Data
 $this->res->status(200).json(["response" => true, "msg" => "Your Message"]);    # Sending Data along with HTTP Status Code
 ```
+
+### How to accept HTTP Request Body
+
+To access the entity body of HTTP Request (of any HTTP Method) you have to use `$this->req->body` variable with in your Router Class.
+
+```php
+$this->req->body          # For all Content-Type
+$this->req->json          # For applicaton/json 
+$this->req->urlencoded    # For application/x-www-form-urlencoded
+```
