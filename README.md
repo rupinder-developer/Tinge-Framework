@@ -118,7 +118,7 @@ You can easily set HTTP Request Method validation with help of `$this->req->meth
 class Product extends Router {
 
     // GET Route
-    public function add() {
+    public function get() {
         // Your code...
     }
     
