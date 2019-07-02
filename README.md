@@ -59,10 +59,9 @@ $this->res->status(200).json(["response" => true, "msg" => "Your Message"]);    
 
 ### How to accept HTTP Request Body
 
-To access the entity body of HTTP Request (of any HTTP Method) you have to use `$this->req->body` variable with in your Router Class.
-
+To access the entity body of HTTP Request (of any HTTP Method) you have to use `$this->req->body` variable with in your Router Class. **Also you can parse JSON *(application/json)* and URL Encoded *(application/x-www-form-urlencoded)* data into PHP stdClass Object** by using following varibale given in example below: 
 ```php
-$this->req->body          # For all Content-Type
-$this->req->json          # For applicaton/json 
-$this->req->urlencoded    # For application/x-www-form-urlencoded
+$this->req->body        # Raw Data
+$this->req->json        # Parse JSON (application/json) data into PHP stdClass Object
+$this->req->urlencoded  # Parse URL Encoded (application/x-www-form-urlencoded) data into PHP stdClass Object
 ```
