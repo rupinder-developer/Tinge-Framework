@@ -110,8 +110,6 @@ class Product extends Router {
  
 ### Validate HTTP Request Method
 You can easily set HTTP Request Method validation with help of `$this->req->method()` function inside your router class.
-
-**Note:** Make sure that call $this->req->method() at the top of the router class function.
 ```php
 <?php
 
@@ -124,7 +122,7 @@ class Product extends Router {
     
     // POST Route
     public function add() {
-        $this->req->method('post'); # Always call this method at the top of the function.
+        $this->req->method('post');
         // Your code...
     }
     
