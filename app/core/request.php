@@ -8,18 +8,9 @@ class Request {
 
     public function  __construct() {
         $this->body = file_get_contents('php://input');
-
-        if (isset($_SERVER['CONTENT_TYPE'])) {
-
-            if ($_SERVER['CONTENT_TYPE'] === 'application/json') {
-                $this->json = json_decode($this->body);
-            }
-
-            if ($_SERVER['CONTENT_TYPE'] === 'application/x-www-form-urlencoded') {
-                parse_str($this->body, $this->urlencoded);
-                $this->urlencoded = (object) $this->urlencoded;
-            }
-        }
+        $this->json = json_decode($this->body);
+        parse_str($this->body, $this->urlencoded);
+        $this->urlencoded = (object) $this->urlencoded;
     }
 
     public function method($method) {
