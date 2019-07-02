@@ -11,7 +11,7 @@ Atom is installed in three steps:
 3. If you intend to use a database, open the app/core/config.php file with a text editor and set your database settings.
 
 ## Folder Structure
-For building RESTFul APIs we have to only deal with helpers, models, routes. *Please to not mess up with **core directory** as it contains the core functionality of the framework.*
+For building RESTful APIs we have to only deal with helpers, models, routes. *Please do not mess up with **core directory** as core functionality of the framework depends on it.*
 
     .
     ├── app                     
@@ -65,7 +65,7 @@ $this->req->body        # Raw Data
 $this->req->json        # Parse JSON (application/json) data into PHP stdClass Object
 $this->req->urlencoded  # Parse URL Encoded (application/x-www-form-urlencoded) data into PHP stdClass Object
 ```
-
+> **Note**: You can accept FormData by using built in GLOBAL Varibale $_POST.
 ### Accept Parameters from URL
 Typically there is a one-to-one relationship between a URL string and its corresponding router class/method. The segments in a URI normally follow this pattern:
 ```
@@ -102,9 +102,50 @@ You can achieve above protype as follows:
  <?php
  
 class Product extends Router {
-    public function func_name($limit, $offset) {
+    public function getAll($limit, $offset) {
        // Your Logic
     }
 }
  ```
+ 
+### Validate HTTP Request Method
+You can easily set HTTP Request Method validation with help of `$this->req->method()` function inside your router class.
+
+**Note:** Make sure that call $this->req->method() at the top of the router class function.
+```php
+<?php
+
+class Product extends Router {
+
+    // GET Route
+    public function add() {
+        // Your code...
+    }
+    
+    // POST Route
+    public function add() {
+        $this->req->method('post'); # Always call this method at the top of the function.
+        // Your code...
+    }
+    
+    // PATCH Route
+    public function update() {
+        $this->req->method('patch');
+        // Your code...
+    }
+    
+    // PUT Route
+    public function updateWithPut() {
+        $this->req->method('put');
+        // Your code...
+    }
+    
+    // DELETE Route
+    public function delete() {
+        $this->req->method('delete');
+        // Your code...
+    }
+}
+```
+
 
