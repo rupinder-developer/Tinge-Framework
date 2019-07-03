@@ -176,6 +176,7 @@ In this framework, **Model Classes** are used to interact with your **database**
 You can simply create a Model by creating php file inside your **./app/models** directory with the name as same as your model name. 
 
 For example, If you want to create a Model with the name **Member**, then you have to create a file named as Member.php inside your models directory.
+
 **Member.php** *(./app/models)*
 ```php
 <?php
@@ -206,4 +207,72 @@ class Example extends Router {
 }
 ```
 
+### How to interact with MySQL Database inside your Model Class?
+
+If you intend to use a database, open the app/core/config.php file with a text editor and set your database settings. You can also create global variables inside congfig.php file which you can access all over the framework. 
+
+**./app/core/config.php**
+```php
+<?php
+/**
+ * Configuration File.
+ * (You can also define your own custom GLOBAL VARIABLES in this file.)
+ *
+ * This file contains the following variables :
+ * * HOSTNAME
+ * * USERNAME
+ * * PASSWORD
+ * * DATABASE NAME
+ *
+ */
+// Enter your Hostname.
+define('HOSTNAME', 'localhost');
+// Enter your Username.
+define('USERNAME', 'root');
+// Enter your Server Password.
+define('PASSWORD', '');
+// Enter your Database Name.
+define('DB_NAME', 'dbname');
+
+
+/**
+ * CUSTOM GLOBAL VARIABLES
+ *          |
+ *          |
+ *          V
+ */
+$EXAMPLE_VARIABLE = 'THIS IS EXAMPLE GLOBAL VARIABLE'; 
+```
+
+You can use `$this->db` variable inside your model class to interact with your MySQL Database. 
+
+### Initialize Database Connection
+
+**connect()** function/method is used to initialize your database connection.
+```php
+$this->db->connect(); # Initialize your database connection.
+```
+
+## Active Records 
+
+This framework support Active Record which is a type of database pattern that pattern allows information to be retrieved, inserted, and updated in your database with minimal scripting. In some cases only one or two lines of code are necessary to perform a database action.
+
+Beyond simplicity, It also allows for safer queries, since the values are escaped automatically by the system.
+
+If you want to use Active Records separately in your PHP Project please visit [https://github.com/rupinder-developer/ActiveRecords](https://github.com/rupinder-developer/ActiveRecords). 
+
+Followings are the functions which are supported by our Active Records
+
+| Function               | Description                                                                 |
+|:-----------------------|:----------------------------------------------------------------------------|
+| $this->db->connect()   | To initialize database connection.                                          |
+| $this->db->select()    | Fetch Data from DB *(Returns Multidimensional Array)*.                      |
+| $this->db->join()      | To generate Join Queries *(Returns Multidimensional Array)*.                |
+| $this->db->insert()    | To insert data into your database.                                          |
+| $this->db->update()    | To generate update query.                                                   |
+| $this->db->delete()    | To delete data from your database.                                          |
+| $this->db->query()     | To generate custom database queries.                                        |
+| $this->db->installSQL()| To install SQL file to your connected database.                             |
+| $this->db->dropTables()| To Drop all the tables inside your database.                                |
+| $this->db->scanTables()| Returns the list of tables present in your database.                        |
 
