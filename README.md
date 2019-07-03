@@ -29,7 +29,7 @@ Let's take a deep dive and understand how to use this framework for building RES
 ## Routes
 
 ### How to create Route?
-If you want to make the route as like `http://www.example.com/Member/getMembers`, we have to create a file named as **Member.php** inside the **./app/routes** directory. 
+If you want to make the route as like `http://www.example.com/Member/getMembers`, then create a file named as **Member.php** inside the **./app/routes** directory. 
 
 **Member.php**
 ```php
@@ -43,6 +43,15 @@ class Member extends Router {
         ]);
     }
 }
+```
+
+```
+http://www.example.com/Member/getMembers
+                         |        |
+                         |        |---------> Function Name
+   Class Name <----------|
+                                            
+
 ```
 > **Note**: File name and Class name should be same.
 
@@ -110,36 +119,49 @@ class Product extends Router {
  
 ### Validate HTTP Request Method
 You can easily set HTTP Request Method validation with help of `$this->req->method()` function inside your router class.
+
+Now let's create the following routes to understand the usage of `$this->req->method()`:
+
+| Request Method | Path                                          |
+|----------------|-----------------------------------------------|
+| `GET`          | http://example.com/Product/getAll             |
+| `POST`         | http://example.com/Product/save               |
+| `PUT`          | http://example.com/Product/putUpdate          |
+| `PATCH`        | http://example.com/Product/patchUpdate        |
+| `DELETE`       | http://example.com/Product/delete/:productId  |
+
+
 ```php
 <?php
 
 class Product extends Router {
 
     // GET Route
-    public function get() {
+    public function getAll() {
+        $this->req->method('get');
         // Your code...
     }
     
     // POST Route
-    public function add() {
-        $this->req->method('post');
-        // Your code...
-    }
-    
-    // PATCH Route
-    public function update() {
-        $this->req->method('patch');
+    public function save() {
+        $this->req->method('post'); 
         // Your code...
     }
     
     // PUT Route
-    public function updateWithPut() {
+    public function putUpdate() {
         $this->req->method('put');
         // Your code...
     }
     
+    // PATCH Route
+    public function patchUpdate() {
+        $this->req->method('patch');
+        // Your code...
+    }
+    
     // DELETE Route
-    public function delete() {
+    public function delete($productId) {
         $this->req->method('delete');
         // Your code...
     }
