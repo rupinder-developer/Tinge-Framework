@@ -168,4 +168,42 @@ class Product extends Router {
 }
 ```
 
+## Models
+
+In this framework, **Model Classes** are used to interact with your **database**. All the main logic of your API goes here. Now let's see how to use models and see how model class can interact with router class.
+
+### How to create Model?
+You can simply create a Model by creating php file inside your **./app/models** directory with the name as same as your model name. 
+
+For example, If you want to create a Model with the name **Member**, then you have to create a file named as Member.php inside your models directory.
+**Member.php** *(./app/models)*
+```php
+<?php
+class Member extends Model {
+    public function testFunc() {
+        // Your Logic
+    }
+}
+```
+> **Note:** File name and class name should be same.
+
+### How to access Models inside your Router Class?
+
+You can use `$this->model()` function inside your Router Class to access your model.
+
+Now Let's take an example, how to access your **Model** inside the Router Class.
+
+**Example.php** *(Router Class)* -> ./app/routes
+```php
+<?php
+// Your Example Route
+class Example extends Router {
+    
+    public function exampleFunc() {
+        $model = $this->model('ModelName'); # $this->model() accept one paramter which is the name of your model
+        $model->functionName();             # Accessing Model's Function
+    }
+}
+```
+
 
