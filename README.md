@@ -403,3 +403,32 @@ $query->execute();
 $result = $query->fetchAll();
 
 ```
+
+## Helpers
+
+Helpers are the custom classes which you can access all over the framework.
+
+### How to create Helper?
+You can simply create a Helper by creating php file inside your **./app/helpers** directory with the name as same as your model name. 
+
+For example, If you want to create a Model with the name **Authorization**, then you have to create a file named as Member.php inside your models directory.
+
+**Authorization.php** *(./app/models)*
+```php
+<?php
+class Authorization {
+    public function testFunc() {
+        // Your Logic
+    }
+}
+```
+> **Note:** File name and class name should be same.
+
+### How to access Helper?
+
+You can use `$this->helper()` function inside your Router/Model Class to access your helper.
+
+```php
+$helper = $this->helper('helper_name');
+$helper->func_name();
+```
