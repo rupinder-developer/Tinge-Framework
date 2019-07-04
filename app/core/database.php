@@ -2,7 +2,7 @@
 /**
  * Database.
  * @author    Rupinder Singh <rupinder.developer@gmail.com>
- * @copyright 2018
+ * @copyright 2019
  */
 namespace MySQL;
 
