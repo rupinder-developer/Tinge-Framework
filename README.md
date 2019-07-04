@@ -25,6 +25,20 @@ For building RESTful APIs we have to only deal with helpers, models, routes. *Pl
 ## Documentation
 
 Let's take a deep dive and understand how to use this framework for building RESTful APIs. 
+1. [Routes](#routes)
+    + [Create Route](#how-to-create-route)
+    + [Send Response](#how-to-send-response)
+    + [Accept HTTP Request Body](#how-to-accept-http-request-body)
+    + [Accept Parameters from URL](#accept-parameters-from-url)
+    + [Validate HTTP Request Method](##validate-http-request-method)
+2. [Models](#models)
+    + [Create Model](#how-to-create-model)
+    + [Model usage](#how-to-access-models-inside-your-router-class)
+    + [MySQL Database Connection](#how-to-interact-with-mysql-database-inside-your-model-class)
+    + [Active Records](#active-records)
+3. [Helpers](#helpers)
+    + [Create Helpers](#how-to-create-helper)
+    + [Helpers usage](#how-to-access-helper)
 
 ## Routes
 
