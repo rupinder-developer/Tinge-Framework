@@ -42,7 +42,7 @@ class Home extends Router{
 
     public function decode() {
         try {
-            $decode = JWT::decode($this->req->body->token, 'secret_key');
+            $decode = JWT::decode($this->req->json->token, 'secret_key');
         } catch (Exception $e) {
             $this->res->status(401)->json([
                 'response' => false,
