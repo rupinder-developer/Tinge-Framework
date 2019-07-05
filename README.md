@@ -39,7 +39,7 @@ Let's take a deep dive and understand how to use this framework for building RES
 3. [Helpers](#helpers)
     + [Create Helpers](#how-to-create-helper)
     + [Helpers usage](#how-to-access-helper)
-4. [PHP-JWT (JSON Web Tokens)](#)
+4. [PHP-JWT (JSON Web Tokens)](#jwtjson-web-tokens)
 
 ## Routes
 
