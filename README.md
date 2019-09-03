@@ -1,6 +1,6 @@
-# PHP Routing Framework (Atom)
+# Tinge Framework (PHP Routing Framework )
 
-**Atom** is very light weight PHP Framework which is specially design to build **RESTful APIs** and it only support MySQL Database by default. 
+**Tinge Framework** is very light weight PHP Framework which is specially design to build **RESTful APIs** and it only support MySQL Database by default. 
 
 **Note**: *You can easily integrate any other type of Database by simply creating custom helpers inside the framework.*
 
@@ -413,7 +413,7 @@ $this->db->installSQL('path/file_name.sql');
 query() function is used to generate custom SQL queries and also provides the functionality to bind parameters with in your custom query.
 
 ```php
-$query = $this->db->query('SELECT * FROM table_name WHERE col_1=:col_2 AND col_2=:col_2', [ ':col_1'=> 'val_1', ':col_2'=>'val_2' ] );
+$query = $this->db->query('SELECT * FROM table_name WHERE col_1=:col_1 AND col_2=:col_2', [ ':col_1'=> 'val_1', ':col_2'=>'val_2' ] );
 $query->execute();
 $result = $query->fetchAll();
 
