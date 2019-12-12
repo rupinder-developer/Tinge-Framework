@@ -96,7 +96,7 @@ class Test extends Router {
 }
 ```
 #### Accept JSON Data
-**parseJSON()** method parses JSON (application/json) data into PHP stdClass Object and stores the result in **$this->req->body->json** variable.
+**parseJSON()** method parses JSON (application/json) data into PHP stdClass Object and stores the result in **$this->req->json** variable.
 ```php
 <?php
 
@@ -110,7 +110,7 @@ class Test extends Router {
 ```
 
 #### Accept URL Encoded Data
-**parseUrlencoded()** method parses URL Encoded (application/x-www-form-urlencoded) data into PHP stdClass Object and stores the result in **$this->req->body->urlencoded** variable.
+**parseUrlencoded()** method parses URL Encoded (application/x-www-form-urlencoded) data into PHP stdClass Object and stores the result in **$this->req->urlencoded** variable.
 ```php
 <?php
 
