@@ -3,6 +3,7 @@ class Home extends Router{
     public function index() {
         /* 
          * Read HTTP Request Body {JSON Data}
+         * > $this->req->parseJSON();
          * > $this->req->json
          * > Example: $this->req->json->firstName
          * 

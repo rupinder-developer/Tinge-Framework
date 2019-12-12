@@ -1,15 +1,20 @@
 <?php
 
 class Request {
-
-    public $body;
+    
     public $json;
     public $urlencoded;
 
-    public function  __construct() {
-        $this->body = file_get_contents('php://input');
-        $this->json = json_decode($this->body);
-        parse_str($this->body, $this->urlencoded);
+    public function body() {
+        return file_get_contents('php://input');
+    }
+
+    public function parseJSON() {
+        $this->json = json_decode(file_get_contents('php://input'));
+    }
+
+    public function parseUrlencoded() {
+        parse_str(file_get_contents('php://input'), $this->urlencoded);
         $this->urlencoded = (object) $this->urlencoded;
     }
 
