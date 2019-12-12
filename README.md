@@ -84,10 +84,43 @@ $this->res->status(200)->json(["response" => true, "msg" => "Your Message"]);   
 ### How to accept HTTP Request Body?
 
 To access the entity body of HTTP Request (of any HTTP Method) you have to use `$this->req->body` variable with in your Router Class. **Also you can parse JSON *(application/json)* and URL Encoded *(application/x-www-form-urlencoded)* data into PHP stdClass Object** by using following varibale given in example below: 
+
+#### Accept Raw Data
 ```php
-$this->req->body        # Raw Data
-$this->req->json        # Parse JSON (application/json) data into PHP stdClass Object
-$this->req->urlencoded  # Parse URL Encoded (application/x-www-form-urlencoded) data into PHP stdClass Object
+<?php
+
+class Test extends Router {
+    public function testRoute() {
+        $rawData = $this->req->body();
+    }
+}
+```
+#### Accept JSON Data
+**parseJSON()** method parses JSON (application/json) data into PHP stdClass Object and stores the result in **$this->req->body->json** variable.
+```php
+<?php
+
+class Test extends Router {
+    public function testRoute() {
+        $this->req->parseJSON();
+        $firstName = $this->req->json->firstName;
+        $lastName = $this->req->json->lastName;
+    }
+}
+```
+
+#### Accept URL Encoded Data
+**parseUrlencoded()** method parses URL Encoded (application/x-www-form-urlencoded) data into PHP stdClass Object and stores the result in **$this->req->body->urlencoded** variable.
+```php
+<?php
+
+class Test extends Router {
+    public function testRoute() {
+        $this->req->parseUrlencoded();
+        $firstName = $this->req->urlencoded->firstName;
+        $lastName = $this->req->urlencoded->lastName;
+    }
+}
 ```
 > **Note**: You can accept FormData by using built in GLOBAL Varibale $_POST.
 ### Accept Parameters from URL
