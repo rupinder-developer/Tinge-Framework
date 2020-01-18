@@ -64,7 +64,7 @@ class Database
             $query = $this->handler->prepare($sql);
         } else {
             foreach ($condition as $key => $value) {
-                $pieces[] = $this->binary.' '.$key.'=:'.$key;
+                $pieces[] = $key.'=:'.$key;
             }
             $where = ' WHERE '.implode(' '.trim($glue).' ', $pieces);
             $query = $this->handler->prepare($sql.$where);
@@ -107,7 +107,7 @@ class Database
             $where = '';
         } else {
             foreach ($condition as $key => $value) {
-                $pieces[] = $this->binary.' '.$key.'=:'.str_replace('.', '_', $key);
+                $pieces[] = $key.'=:'.str_replace('.', '_', $key);
             }
             $where = ' WHERE '.implode(' '.trim($glue).' ', $pieces);
         }
@@ -164,7 +164,7 @@ class Database
         }
         if (empty($condition) !== true) {
             foreach ($condition as $key => $value) {
-                $wherePieces[] = $this->binary.' '.$key.'=:where'.$key;
+                $wherePieces[] = $key.'=:where'.$key;
             }
             $where = ' WHERE '.implode(' '.trim($glue).' ', $wherePieces);
         } else {
@@ -197,7 +197,7 @@ class Database
     public function delete($table, $condition, $glue = 'AND')
     {
         foreach ($condition as $key => $value) {
-            $pieces[] = $this->binary.' '.$key.'=:'.$key;
+            $pieces[] = $key.'=:'.$key;
         }
         $where = ' WHERE '.implode(' '.trim($glue).' ', $pieces);
         $sql   = 'DELETE FROM '.$table.$where;
