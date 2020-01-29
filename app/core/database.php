@@ -16,19 +16,22 @@ class Database {
      * @var array      $bindParams
      * @var string     $select
      * @var array      $where
+     * @var string     $orderBy
      * @var string     $cols
      */
     private $bindParams;
     private $handler;
     private $select;
     private $where;
+    private $orderBy;
     private $cols;
 
     function __construct() {
         // Initialization
         $this->bindParams = [];
-        $this->where = [];
-        $this->cols = '*';
+        $this->orderBy    = '';
+        $this->where      = [];
+        $this->cols       = '*';
     }//end __construct()
 
     public function __destruct() {
@@ -66,18 +69,24 @@ class Database {
         return $this;
     }//end where()
 
+    public function orderBy($cols, $sortBy = '') {
+        $this->orderBy = " ORDER BY {$cols} {$sortBy}";
+        return $this;
+    }//end orderBy()
+
     public function execute() {
         if (count($this->where) > 0) {
             $where = ' WHERE '.implode(' AND ',$this->where);
         } else {
             $where = '';
         }
-        echo 'SELECT '.$this->cols.' FROM '.$this->select.$where;
+        echo 'SELECT '.$this->cols.' FROM '.$this->select.$where.$this->orderBy;
 
         // Cleaning up resources
         $this->bindParams = [];
-        $this->where = [];
-        $this->cols = '*';
+        $this->orderBy    = '';
+        $this->where      = [];
+        $this->cols       = '*';
     }//end execute()
 
     public function query($sql) {
