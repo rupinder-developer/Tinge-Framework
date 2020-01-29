@@ -14,16 +14,19 @@ class Database {
      *
      * @var Connection $handler
      * @var array      $bindParams
-     * @var string     $select
      * @var array      $where
+     * 
      * @var string     $orderBy
+     * @var string     $select
      * @var string     $cols
+     * @var string     $limit
      */
     private $bindParams;
     private $handler;
-    private $select;
-    private $where;
     private $orderBy;
+    private $select;
+    private $limit;
+    private $where;
     private $cols;
 
     function __construct() {
@@ -32,6 +35,7 @@ class Database {
         $this->orderBy    = '';
         $this->where      = [];
         $this->cols       = '*';
+        $this->limit      = '';
     }//end __construct()
 
     public function __destruct() {
@@ -70,9 +74,13 @@ class Database {
     }//end where()
 
     public function orderBy($cols, $sortBy = '') {
-        $this->orderBy = " ORDER BY {$cols} {$sortBy}";
+        $this->orderBy = " ORDER BY {$cols} {$sortBy} ";
         return $this;
     }//end orderBy()
+
+    public function limit($limit, $offset = null) {
+        $this->limit = ' LIMIT '.$limit.($offset?', '.$offset:'').' ';
+    }//end limit()
 
     public function execute() {
         if (count($this->where) > 0) {
@@ -80,13 +88,14 @@ class Database {
         } else {
             $where = '';
         }
-        echo 'SELECT '.$this->cols.' FROM '.$this->select.$where.$this->orderBy;
+        echo 'SELECT '.$this->cols.' FROM '.$this->select.$where.$this->limit.$this->orderBy;
 
         // Cleaning up resources
         $this->bindParams = [];
         $this->orderBy    = '';
         $this->where      = [];
         $this->cols       = '*';
+        $this->limit      = '';
     }//end execute()
 
     public function query($sql) {
