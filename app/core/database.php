@@ -73,6 +73,14 @@ class Database {
         return $this;
     }//end where()
 
+    public function in($colName, $array) {
+        
+    }//end in()
+
+    public function nin($colName, $array) {
+        
+    }//end nin()
+
     public function orderBy($cols, $sortBy = '') {
         $this->orderBy = " ORDER BY {$cols} {$sortBy} ";
         return $this;
@@ -89,6 +97,9 @@ class Database {
             $where = '';
         }
         echo 'SELECT '.$this->cols.' FROM '.$this->select.$where.$this->limit.$this->orderBy;
+        $query = $this->handler->prepare('SELECT '.$this->cols.' FROM '.$this->select.$where.$this->limit.$this->orderBy);
+        $query->execute($this->bindParams);
+        return $query;
 
         // Cleaning up resources
         $this->bindParams = [];

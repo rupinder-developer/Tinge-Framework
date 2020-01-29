@@ -20,11 +20,8 @@ class Home extends Router{
          * > $model->modelTest();
          */
 
-        $this->req->method('get');
-        $this->res->status(200)->json([
-            'response' => true,
-            'msg' => 'Route -> /Home/index'
-        ]);
+        $model = $this->model('DefaultModel');
+        $model->modelTest();
     }
 
     public function encode() {
