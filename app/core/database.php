@@ -58,10 +58,10 @@ class Database {
         return $this;
     }//end select()
 
-    public function cols($cols) {
+    public function project($cols) {
         $this->cols = $cols;
         return $this;
-    }//end cols()
+    }//end project()
 
     public function where($conditions, $glue = 'AND') {
         $temp = [];
