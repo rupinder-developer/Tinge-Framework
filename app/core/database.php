@@ -124,6 +124,19 @@ class Database {
         $this->limit      = '';
     }//end execute()
 
+    public function insert($tableName, $values) {
+        $col        = [];
+        $val        = [];
+        $bindParams = [];
+        foreach($values as $key => $value) {
+            array_push($col, $key);
+            array_push($val, ":{$key}");
+            $bindParams[":{$key}"] = $value;
+        }
+        $query = $this->handler->prepare("INSERT INTO {$tableName}(".implode(', ', $col).") VALUES(".implode(', ', $val).")");
+        return $query->execute($bindParams);
+    }//end insert()
+
     public function query($sql) {
         return $this->handler->prepare($sql);
     }//end query()
