@@ -73,12 +73,26 @@ class Database {
         return $this;
     }//end where()
 
-    public function in($colName, $array) {
-        
+    public function in($cols, $array) {
+        $temp = [];
+        foreach($array as $value) {
+            $uniqid = uniqid();
+            array_push($temp, ":{$uniqid}");
+            $this->bindParams[":{$uniqid}"] = $value;
+        }
+        array_push($this->where, "({$cols} IN (".implode(', ', $temp)."))");
+        return $this;
     }//end in()
 
-    public function nin($colName, $array) {
-        
+    public function nin($cols, $array) {
+        $temp = [];
+        foreach($array as $value) {
+            $uniqid = uniqid();
+            array_push($temp, ":{$uniqid}");
+            $this->bindParams[":{$uniqid}"] = $value;
+        }
+        array_push($this->where, "({$cols} NOT IN (".implode(', ', $temp)."))");
+        return $this;
     }//end nin()
 
     public function orderBy($cols, $sortBy = '') {
@@ -88,6 +102,7 @@ class Database {
 
     public function limit($limit, $offset = null) {
         $this->limit = ' LIMIT '.$limit.($offset?', '.$offset:'').' ';
+        return $this;
     }//end limit()
 
     public function execute() {
@@ -96,8 +111,8 @@ class Database {
         } else {
             $where = '';
         }
-        echo 'SELECT '.$this->cols.' FROM '.$this->select.$where.$this->limit.$this->orderBy;
-        $query = $this->handler->prepare('SELECT '.$this->cols.' FROM '.$this->select.$where.$this->limit.$this->orderBy);
+        echo 'SELECT '.$this->cols.' FROM '.$this->select.$where.$this->orderBy.$this->limit;
+        $query = $this->handler->prepare('SELECT '.$this->cols.' FROM '.$this->select.$where.$this->orderBy.$this->limit);
         $query->execute($this->bindParams);
         return $query;
 

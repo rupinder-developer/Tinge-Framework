@@ -3,7 +3,8 @@
 class DefaultModel extends Model {
     public function modelTest() {
         $this->db->connect();
-        $query = $this->db->select('member')->execute();
+        $query = $this->db->select('members')->execute();
+        
 
 
         echo '<pre>';
