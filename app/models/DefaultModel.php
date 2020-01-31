@@ -3,9 +3,7 @@
 class DefaultModel extends Model {
     public function modelTest() {
         $this->db->connect();
-        $query = $this->db->update('members', [
-            'full_name' => 'Admin' 
-        ])->where([
+        $query = $this->db->delete('orders')->where([
             'id' => 1
         ])->execute();
         echo $query->rowCount();

@@ -20,6 +20,7 @@ class Database {
      * @var string     $orderBy
      * @var string     $select 
      * @var string     $update
+     * @var string     $delete
      * @var string     $cols     // Columns for projection
      * @var string     $limit
      */
@@ -29,6 +30,7 @@ class Database {
     private $orderBy;
     private $select;
     private $update;
+    private $delete;
     private $limit;
     private $where;
     private $cols;
@@ -40,6 +42,7 @@ class Database {
         $this->orderBy    = '';
         $this->select     = '';
         $this->update     = '';
+        $this->delete     = '';
         $this->limit      = '';
         $this->where      = [];
         $this->cols       = '*';
@@ -127,6 +130,10 @@ class Database {
             $query = $this->handler->prepare("UPDATE {$this->update} SET ".implode(', ', $this->updateCols).$where);
             $query->execute($this->bindParams);
             return $query;
+        } else if ($this->delete) {
+            $query = $this->handler->prepare("DELETE FROM {$this->delete}".$where);
+            $query->execute($this->bindParams);
+            return $query;
         } else {
             return null;
         }        
@@ -137,6 +144,7 @@ class Database {
         $this->orderBy    = '';
         $this->select     = '';
         $this->update     = '';
+        $this->delete     = '';
         $this->limit      = '';
         $this->where      = [];
         $this->cols       = '*';
@@ -155,8 +163,8 @@ class Database {
         return $query->execute($bindParams);
     }//end insert()
 
-    public function update($table, $values) {
-        $this->update = $table;
+    public function update($tableName, $values) {
+        $this->update = $tableName;
         foreach ($values as $key => $value) {
             array_push($this->updateCols, "{$key}=:update_{$key}");
             $this->bindParams[":update_{$key}"] = $value;
@@ -164,7 +172,8 @@ class Database {
         return $this;
     }//end update()
 
-    public function delete($table) {
+    public function delete($tableName) {
+        $this->delete = $tableName;
         return $this;
     }//end delete()
 
