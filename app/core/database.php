@@ -14,17 +14,21 @@ class Database {
      *
      * @var Connection $handler
      * @var array      $bindParams
+     * @var array      $updateCols 
      * @var array      $where
      * 
      * @var string     $orderBy
-     * @var string     $select
-     * @var string     $cols
+     * @var string     $select 
+     * @var string     $update
+     * @var string     $cols     // Columns for projection
      * @var string     $limit
      */
     private $bindParams;
+    private $updateCols;
     private $handler;
     private $orderBy;
     private $select;
+    private $update;
     private $limit;
     private $where;
     private $cols;
@@ -32,10 +36,13 @@ class Database {
     function __construct() {
         // Initialization
         $this->bindParams = [];
+        $this->updateCols = [];
         $this->orderBy    = '';
+        $this->select     = '';
+        $this->update     = '';
+        $this->limit      = '';
         $this->where      = [];
         $this->cols       = '*';
-        $this->limit      = '';
     }//end __construct()
 
     public function __destruct() {
@@ -73,9 +80,9 @@ class Database {
         return $this;
     }//end where()
 
-    public function in($cols, $array) {
+    public function in($cols, $values) {
         $temp = [];
-        foreach($array as $value) {
+        foreach($values as $value) {
             $uniqid = uniqid();
             array_push($temp, ":{$uniqid}");
             $this->bindParams[":{$uniqid}"] = $value;
@@ -84,9 +91,9 @@ class Database {
         return $this;
     }//end in()
 
-    public function nin($cols, $array) {
+    public function nin($cols, $values) {
         $temp = [];
-        foreach($array as $value) {
+        foreach($values as $value) {
             $uniqid = uniqid();
             array_push($temp, ":{$uniqid}");
             $this->bindParams[":{$uniqid}"] = $value;
@@ -111,17 +118,28 @@ class Database {
         } else {
             $where = '';
         }
-        echo 'SELECT '.$this->cols.' FROM '.$this->select.$where.$this->orderBy.$this->limit;
-        $query = $this->handler->prepare('SELECT '.$this->cols.' FROM '.$this->select.$where.$this->orderBy.$this->limit);
-        $query->execute($this->bindParams);
-        return $query;
+        
+        if ($this->select) {
+            $query = $this->handler->prepare('SELECT '.$this->cols.' FROM '.$this->select.$where.$this->orderBy.$this->limit);
+            $query->execute($this->bindParams);
+            return $query;
+        } else if ($this->update) {
+            $query = $this->handler->prepare("UPDATE {$this->update} SET ".implode(', ', $this->updateCols).$where);
+            $query->execute($this->bindParams);
+            return $query;
+        } else {
+            return null;
+        }        
 
         // Cleaning up resources
         $this->bindParams = [];
+        $this->updateCols = [];
         $this->orderBy    = '';
+        $this->select     = '';
+        $this->update     = '';
+        $this->limit      = '';
         $this->where      = [];
         $this->cols       = '*';
-        $this->limit      = '';
     }//end execute()
 
     public function insert($tableName, $values) {
@@ -136,6 +154,19 @@ class Database {
         $query = $this->handler->prepare("INSERT INTO {$tableName}(".implode(', ', $col).") VALUES(".implode(', ', $val).")");
         return $query->execute($bindParams);
     }//end insert()
+
+    public function update($table, $values) {
+        $this->update = $table;
+        foreach ($values as $key => $value) {
+            array_push($this->updateCols, "{$key}=:update_{$key}");
+            $this->bindParams[":update_{$key}"] = $value;
+        }
+        return $this;
+    }//end update()
+
+    public function delete($table) {
+        return $this;
+    }//end delete()
 
     public function query($sql) {
         return $this->handler->prepare($sql);
