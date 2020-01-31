@@ -1,4 +1,12 @@
-# Tinge Framework (PHP Routing Framework )
+# Tinge Framework (PHP Routing Framework ) - V2
+
+**What's New?**
+- Improve Active Records
+    - Implemented Method Chaining
+    - New Active Record's methods
+        - *where(), nin(), in(), limit(), orderBy()*
+    - Remove *join()* method from Active Records
+     
 
 **Tinge Framework** is very light weight PHP Framework which is specially design to build **RESTful APIs** and it only support MySQL Database by default. 
 
