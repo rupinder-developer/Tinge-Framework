@@ -108,8 +108,8 @@ class Database {
     public function notLike($conditions, $glue = 'AND') {
         $temp = [];
         foreach($conditions as $key => $value) {
-            array_push($temp, "{$key} NOT LIKE :like_{$key}");
-            $this->bindParams[":like_{$key}"] = "%{$value}%";
+            array_push($temp, "{$key} NOT LIKE :not_like_{$key}");
+            $this->bindParams[":not_like_{$key}"] = "%{$value}%";
         }
         array_push($this->where, ' ('.implode(" {$glue} ", $temp).')');
         return $this;
