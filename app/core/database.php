@@ -95,6 +95,26 @@ class Database {
         return $this;
     }//end where()
 
+    public function like($conditions, $glue = 'AND') {
+        $temp = [];
+        foreach($conditions as $key => $value) {
+            array_push($temp, "{$key} LIKE :like_{$key}");
+            $this->bindParams[":like_{$key}"] = "%{$value}%";
+        }
+        array_push($this->where, ' ('.implode(" {$glue} ", $temp).')');
+        return $this;
+    }//end like()
+
+    public function notLike($conditions, $glue = 'AND') {
+        $temp = [];
+        foreach($conditions as $key => $value) {
+            array_push($temp, "{$key} NOT LIKE :like_{$key}");
+            $this->bindParams[":like_{$key}"] = "%{$value}%";
+        }
+        array_push($this->where, ' ('.implode(" {$glue} ", $temp).')');
+        return $this;
+    }//end notLike()
+
     public function in($cols, $values) {
         $temp = [];
         foreach($values as $value) {
