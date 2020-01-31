@@ -21,7 +21,7 @@ define('USERNAME', 'root');
 define('PASSWORD', '');
 
 // Enter your Database Name.
-define('DB_NAME', 'test');
+define('DB_NAME', 'db_name');
 
 
 /**

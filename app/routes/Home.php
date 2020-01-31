@@ -1,10 +1,9 @@
 <?php
 class Home extends Router{
     public function index() {
-        /* 
+         /* 
          * Read HTTP Request Body {JSON Data}
          * > $this->req->parseJSON();
-         * > $this->req->json
          * > Example: $this->req->json->firstName
          * 
          * Validate HTTP Request Method 
@@ -20,8 +19,11 @@ class Home extends Router{
          * > $model->modelTest();
          */
 
-        $model = $this->model('DefaultModel');
-        $model->modelTest();
+        $this->req->method('get');
+        $this->res->status(200)->json([
+            'response' => true,
+            'msg' => 'Route -> /Home/index'
+        ]);
     }
 
     public function encode() {

@@ -2,13 +2,15 @@
 
 class DefaultModel extends Model {
     public function modelTest() {
-        $this->db->connect();
-        $query = $this->db->delete('orders')->where([
-            'id' => 1
-        ])->execute();
-        echo $query->rowCount();
-
-        echo '<pre>';
-        // print_r($query->fetchAll());
+        echo 'Default Model -> modelTest()';
+        /*
+         * Database Usage
+         * > $this->db->connect();
+         * > $this->db->scanTables();
+         * 
+         * Helpers Usage
+         * > $obj = $this->helper('helper_name');
+         * > $obj->func_name();  
+        */
     }
 }

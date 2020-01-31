@@ -49,7 +49,16 @@ class Database {
     }//end __construct()
 
     public function __destruct() {
-        $this->handler = null;
+        $this->handler    = null;
+        $this->bindParams = null;
+        $this->updateCols = null;
+        $this->orderBy    = null;
+        $this->select     = null;
+        $this->update     = null;
+        $this->delete     = null;
+        $this->limit      = null;
+        $this->where      = null;
+        $this->cols       = null;
     }//end __destruct()
 
     public function connect() {
@@ -59,7 +68,10 @@ class Database {
             $this->handler->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             return $this->handler;
         } catch (\PDOException $e) {
-            return $e->getMessage();
+            die(json_encode([
+                'response' => false,
+                'msg' => $e->getMessage()
+            ]));
         }
     }//end connect()
 
@@ -181,17 +193,6 @@ class Database {
         return $this->handler->prepare($sql);
     }//end query()
 
-    /**
-     * installSQL() Function.
-     *
-     * Working :
-     *
-     * 1. Example 1st : $obj->installSQL('path/file_name.sql');
-     *    Output      : Install SQL file to your connected database
-     *
-     * @param  $url
-     * @return boolean
-     */
     public function installSQL($url) {
         if ($this->connect() === true) {
             $stmt = file_get_contents($url);
@@ -206,11 +207,6 @@ class Database {
         }
     }//end installSQL()
 
-    /**
-     * dropTables() Function.
-     *
-     * @return void
-     */
     public function dropTables() {
         if ($this->connect() === true) {
             $sql = 'SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = "BASE TABLE" AND ';
@@ -227,12 +223,6 @@ class Database {
         }
     }//end dropTables()
 
-    /**
-     * scanTables() Function.
-     * This function return the list of tables present in your database.
-     *
-     * @return array
-     */
     public function scanTables() {
         if ($this->connect() === true) {
             $sql = 'SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = "BASE TABLE" AND ';
