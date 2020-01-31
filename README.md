@@ -5,9 +5,9 @@
 **Note**: *You can easily integrate any other type of Database by simply creating custom helpers inside the framework.*
 
 ## Installation Instructions
-Atom is installed in three steps:
+Tinge is installed in three steps:
 1. Unzip the package.
-2. Upload the Atom folders and files to your server. Normally the index.php file will be at your root.
+2. Upload the Tinge folders and files to your server. Normally the index.php file will be at your root.
 3. If you intend to use a database, open the app/core/config.php file with a text editor and set your database settings.
 
 ## Folder Structure
