@@ -316,8 +316,8 @@ Followings are the functions which are supported by our Active Records
 | Function               | Description                                                                 |
 |:-----------------------|:----------------------------------------------------------------------------|
 | $this->db->connect()   | To initialize database connection.                                          |
-| $this->db->select()    | Fetch Data from DB *(Returns Multidimensional Array)*.                      |
-| $this->db->join()      | To generate Join Queries *(Returns Multidimensional Array)*.                |
+| $this->db->select()    | Fetch Data from DB.                                                         |
+| $this->db->where()     | Fetch Data from DB.                                                         |
 | $this->db->insert()    | To insert data into your database.                                          |
 | $this->db->update()    | To generate update query.                                                   |
 | $this->db->delete()    | To delete data from your database.                                          |
