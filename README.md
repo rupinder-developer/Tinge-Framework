@@ -473,23 +473,6 @@ $result = $query->fetchAll();
 // Produces: SELECT * FROM table_name LIMIT 20, 10
 ```
 
-```php
-$query  = $this->db->select('table_name')
-                    ->orderBy('id', 'DESC')
-                    ->execute();
-$result = $query->fetchAll();
-                        
-// Produces: SELECT * FROM table_name ORDER BY id DESC
-
-$query  = $this->db->select('table_name')
-                    ->orderBy('title DESC, name ASC')
-                    ->execute();
-$result = $query->fetchAll();
-                        
-// Produces: SELECT * FROM table_name ORDER BY title DESC, name ASC
-```
-
-
 
 ## Helpers
 
