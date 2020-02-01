@@ -234,22 +234,6 @@ class Database {
         }
     }//end installSQL()
 
-    public function dropTables() {
-        if ($this->connect() === true) {
-            $sql = 'SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = "BASE TABLE" AND ';
-            $sql .= 'TABLE_SCHEMA=:dbName';
-            $query = $this->handler->prepare($sql);
-            $db = DB_NAME;
-            $query->bindParam(':dbName', $db);
-            $query->execute();
-            $array = $query->fetchAll(\PDO::FETCH_ASSOC);
-            foreach ($array as $table) {
-                $queryMain = $this->handler->prepare('DROP TABLE ' . $table['TABLE_NAME']);
-                $queryMain->execute();
-            }
-        }
-    }//end dropTables()
-
     public function scanTables() {
         if ($this->connect() === true) {
             $sql = 'SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = "BASE TABLE" AND ';

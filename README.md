@@ -330,6 +330,14 @@ $result = $query->fetchAll();
 // Produces: SELECT * FROM table_name
 ```
 
+### $this->db->project();
+```php
+$query  = $this->db->select('table_name')->project('col1, col2')->execute();
+$result = $query->fetchAll();
+
+// Produces: SELECT col1, col2 FROM table_name
+```
+
 ### $this->db->where();
 This function enables you to set WHERE clause.
 > **Note**: All values passed to this function are escaped automatically, producing safer queries.
@@ -473,6 +481,93 @@ $result = $query->fetchAll();
 // Produces: SELECT * FROM table_name LIMIT 20, 10
 ```
 
+### Inserting Data
+
+**$this->db->insert()**
+```php
+$this->db->insert('table_name', array(
+    'col_1' => 'val_1',
+    'col_2' => 'val_2'
+)); 
+
+//Produces : INSERT INTO table_name(col_1, val_1) VALUES('val_1', 'val_2')
+```
+
+### Updating Data
+
+**$this->db->update()**
+```php
+$this->db->update('table_name', array(
+                'col1' => 'value1',
+                'col2' => 'value2',
+            ))
+            ->where(array(
+                'id' => 1,
+                'col' => 'val'
+            ))
+            ->execute();
+
+//Produces : UPDATE table_name SET col1='value1', col2='value2' WHERE id=1 AND col='val'
+
+$this->db->update('table_name', array(
+                'col1' => 'value1',
+                'col2' => 'value2',
+            ))->execute();
+
+//Produces : UPDATE table_name SET col1='value1', col2='value2' 
+```
+
+### Deleting Data
+
+**$this->db->delete()**
+```php
+$this->db->delete('table_name')
+            ->where(array(
+                'id' => 1,
+                'col' => 'val'
+            ))
+            ->execute();
+
+//Produces : DELETE FROM table_name WHERE id=1 AND col='val'
+
+$this->db->delete('table_name')->execute();
+
+//Produces : DELETE FROM table_name
+```
+
+### Other Active Record's Methods
+
+**$this->db->installSQL()**
+```php
+$this->db->installSQL('path/file_name.sql');
+//Output: Install SQL file to your connected database
+```
+
+**$this->db->scanTables()**
+```php
+$result = $this->db->scanTables();
+//Output: Return the list of all tables present in database
+```
+
+**$this->db->query()**
+$this->db->query() method is used to generate custom SQL queries.
+```php
+
+// It will return Prepared Statement 
+$preparedStmt = $this->db->query('SELECT * FROM table_name WHERE col_1=:col_1 AND col_2=:col_2'); 
+
+// Bind Parameters
+$value1 = 'Value1';
+$value2 = 'Value2';
+$preparedStmt->bindParam(':col_1', $value1);
+$preparedStmt->bindParam(':col_2', $value2);
+
+// Execute Statement
+$preparedStmt->execute();
+
+// Fetching Result 
+$result = $preparedStmt->fetchAll();
+```
 
 ## Helpers
 
