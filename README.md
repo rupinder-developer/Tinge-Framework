@@ -1,4 +1,4 @@
-# Tinge Framework (PHP Routing Framework ) - V2
+# Tinge Framework - v2
 
 **What's New?**
 - Improve Active Records
