@@ -1,4 +1,4 @@
-# Tinge Framework (PHP Routing Framework )
+# Tinge Framework - v1 (Deprecated)
 
 **Tinge Framework** is very light weight PHP Framework which is specially design to build **RESTful APIs** and it only support MySQL Database by default. 
 
