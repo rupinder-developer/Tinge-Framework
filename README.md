@@ -398,6 +398,42 @@ $result = $query->fetchAll();
 // Produces: SELECT * FROM table_name WHERE col_name NOT IN ('value1', 'value2')
 ```
 
+### $this->db->like()
+This function enables you to LIKE operator in a WHERE clause.
+```php
+$query  = $this->db->select('table_name')
+                    ->like(array(
+                        'col_1' => 'value1',
+                        'col_2' => 'value2'
+                    ))
+                    ->like(array(
+                        'col_3' => 'value3',
+                        'col_4' => 'value4',
+                    ), 'OR')
+                    ->execute();
+$result = $query->fetchAll();
+                        'col_3' => 'value3',
+// Produces: SELECT * FROM table_name WHERE (col_1 LIKE '%value1%' AND col_2 LIKE '%value2%') AND (col_3 LIKE '%value3%' OR col_4 LIKE '%value4%') 
+```
+
+### $this->db->notLike()
+This is funcation is same as $this->db->like(), but it will product NOT LIKE queries instead of LIKE.
+```php
+$query  = $this->db->select('table_name')
+                    ->notLike(array(
+                        'col_1' => 'value1',
+                        'col_2' => 'value2'
+                    ))
+                    ->notLike(array(
+                        'col_3' => 'value3',
+                        'col_4' => 'value4',
+                    ), 'OR')
+                    ->execute();
+$result = $query->fetchAll();
+                        'col_3' => 'value3',
+// Produces: SELECT * FROM table_name WHERE (col_1 NOT LIKE '%value1%' AND col_2 NOT LIKE '%value2%') AND (col_3 NOT LIKE '%value3%' OR col_4 NOT LIKE '%value4%') 
+```
+
 
 
 ## Helpers

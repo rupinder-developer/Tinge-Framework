@@ -86,30 +86,33 @@ class Database {
     }//end project()
 
     public function where($conditions, $glue = 'AND') {
-        $temp = [];
+        $temp   = [];
+        $uniqid = uniqid();
         foreach($conditions as $key => $value) {
-            array_push($temp, "{$key}=:where_{$key}");
-            $this->bindParams[":where_{$key}"] = $value;
+            array_push($temp, "{$key}=:where_{$key}_{$uniqid}");
+            $this->bindParams[":where_{$key}_{$uniqid}"] = $value;
         }
         array_push($this->where, ' ('.implode(" {$glue} ", $temp).')');
         return $this;
     }//end where()
 
     public function like($conditions, $glue = 'AND') {
-        $temp = [];
+        $temp   = [];
+        $uniqid = uniqid();
         foreach($conditions as $key => $value) {
-            array_push($temp, "{$key} LIKE :like_{$key}");
-            $this->bindParams[":like_{$key}"] = "%{$value}%";
+            array_push($temp, "{$key} LIKE :like_{$key}_{$uniqid}");
+            $this->bindParams[":like_{$key}_{$uniqid}"] = "%{$value}%";
         }
         array_push($this->where, ' ('.implode(" {$glue} ", $temp).')');
         return $this;
     }//end like()
 
     public function notLike($conditions, $glue = 'AND') {
-        $temp = [];
+        $temp   = [];
+        $uniqid = uniqid();
         foreach($conditions as $key => $value) {
-            array_push($temp, "{$key} NOT LIKE :not_like_{$key}");
-            $this->bindParams[":not_like_{$key}"] = "%{$value}%";
+            array_push($temp, "{$key} NOT LIKE :not_like_{$key}_{$uniqid}");
+            $this->bindParams[":not_like_{$key}_{$uniqid}"] = "%{$value}%";
         }
         array_push($this->where, ' ('.implode(" {$glue} ", $temp).')');
         return $this;
