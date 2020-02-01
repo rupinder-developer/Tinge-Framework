@@ -322,7 +322,7 @@ Beyond simplicity, It also allows for safer queries, since the values are escape
 ### Selecting Data
 The following functions allow you to build SQL SELECT statements.
 
-#### * $this->db->select();
+### $this->db->select();
 ```php
 $query  = $this->db->select('table_name')->execute();
 $result = $query->fetchAll();
@@ -330,7 +330,7 @@ $result = $query->fetchAll();
 // Produces: SELECT * FROM table_name
 ```
 
-#### * $this->db->where();
+### $this->db->where();
 This function enables you to set WHERE clause.
 > **Note**: All values passed to this function are escaped automatically, producing safer queries.
 
@@ -377,7 +377,7 @@ $result = $query->fetchAll();
 // Produces: SELECT * FROM table_name WHERE (col_1='val_1' OR col_2='val_2') AND (col_3='val_3' OR col_4='val_4')
 ```
 
-#### * $this->db->in()
+###  $this->db->in()
 This function enables you to IN operator in a WHERE clause.
 ```php
 $query  = $this->db->select('table_name')
@@ -387,7 +387,7 @@ $result = $query->fetchAll();
 // Produces: SELECT * FROM table_name WHERE col_name IN ('value1', 'value2')
 ```
 
-#### * $this->db->nin()
+### $this->db->nin()
 
 This function is same as $this->db->in(), but only the difference is that it will produce NOT IN query as given below:
 ```php
