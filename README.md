@@ -400,7 +400,7 @@ $result = $query->fetchAll();
 This function is same as $this->db->in(), but only the difference is that it will produce NOT IN query as given below:
 ```php
 $query  = $this->db->select('table_name')
-                    ->inn('col_name', ['value1', 'value2'])
+                    ->nin('col_name', ['value1', 'value2'])
                     ->execute();
 $result = $query->fetchAll();
 // Produces: SELECT * FROM table_name WHERE col_name NOT IN ('value1', 'value2')
