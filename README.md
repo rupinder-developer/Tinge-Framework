@@ -319,6 +319,64 @@ Beyond simplicity, It also allows for safer queries, since the values are escape
 
 **Tip**: A great benefit of PDO is that it has an exception class to handle any problems that may occur in our database queries. If an exception is thrown within the try{ } block, the script stops executing and flows directly to the first catch(){ } block.
 
+### Selecting Data
+The following functions allow you to build SQL SELECT statements.
+
+#### $this->db->select();
+```php
+$query  = $this->db->select('table_name')->execute();
+$result = $query->fetchAll();
+
+// Produces: SELECT * FROM table_name
+```
+
+#### $this->db->where();
+This function enables you to set WHERE clause.
+> **Note**: All values passed to this function are escaped automatically, producing safer queries.
+
+**WHERE clause with *AND***
+```php
+$query  = $this->db->select('table_name')
+                    ->where(array(
+                        'col_1' => 'val_1',
+                        'col_2' => 'val_2',
+                    ))
+                    ->execute();
+$result = $query->fetchAll();
+
+// Produces: SELECT * FROM table_name WHERE col_1='val_1' AND col_2='val_2'
+```
+
+**WHERE clause with *OR***
+```php
+$query  = $this->db->select('table_name')
+                    ->where(array(
+                        'col_1' => 'val_1',
+                        'col_2' => 'val_2',
+                    ), 'OR')
+                    ->execute();
+$result = $query->fetchAll();
+
+// Produces: SELECT * FROM table_name WHERE col_1='val_1' OR col_2='val_2'
+```
+
+If you use multiple function calls they will be chained together with AND between them:
+```php
+$query  = $this->db->select('table_name')
+                    ->where(array(
+                        'col_1' => 'val_1',
+                        'col_2' => 'val_2',
+                    ), 'OR')
+                    ->where(array(
+                        'col_3' => 'val_3',
+                        'col_4' => 'val_4',
+                    ), 'OR')
+                    ->execute();
+$result = $query->fetchAll();
+
+// Produces: SELECT * FROM table_name WHERE (col_1='val_1' OR col_2='val_2') AND (col_3='val_3' OR col_4='val_4')
+```
+
 
 ## Helpers
 

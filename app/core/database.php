@@ -116,22 +116,26 @@ class Database {
     }//end notLike()
 
     public function in($cols, $values) {
-        $temp = [];
+        $i      = 1;
+        $temp   = [];
+        $uniqid = uniqid();
         foreach($values as $value) {
-            $uniqid = uniqid();
-            array_push($temp, ":{$uniqid}");
-            $this->bindParams[":{$uniqid}"] = $value;
+            array_push($temp, ":{$i}_{$uniqid}");
+            $this->bindParams[":{$i}_{$uniqid}"] = $value;
+            $i++;
         }
         array_push($this->where, "({$cols} IN (".implode(', ', $temp)."))");
         return $this;
     }//end in()
 
     public function nin($cols, $values) {
-        $temp = [];
+        $i      = 1;
+        $temp   = [];
+        $uniqid = uniqid();
         foreach($values as $value) {
-            $uniqid = uniqid();
-            array_push($temp, ":{$uniqid}");
-            $this->bindParams[":{$uniqid}"] = $value;
+            array_push($temp, ":{$i}_{$uniqid}");
+            $this->bindParams[":{$i}_{$uniqid}"] = $value;
+            $i++;
         }
         array_push($this->where, "({$cols} NOT IN (".implode(', ', $temp)."))");
         return $this;
