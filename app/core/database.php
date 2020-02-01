@@ -150,7 +150,7 @@ class Database {
     }//end orderBy()
 
     public function limit($limit, $offset = null) {
-        $this->limit = ' LIMIT '.$limit.($offset?', '.$offset:'').' ';
+        $this->limit = ' LIMIT '.($offset?$offset.', ':'').' '.$limit;
         return $this;
     }//end limit()
 

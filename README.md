@@ -412,7 +412,6 @@ $query  = $this->db->select('table_name')
                     ), 'OR')
                     ->execute();
 $result = $query->fetchAll();
-                        'col_3' => 'value3',
 // Produces: SELECT * FROM table_name WHERE (col_1 LIKE '%value1%' AND col_2 LIKE '%value2%') AND (col_3 LIKE '%value3%' OR col_4 LIKE '%value4%') 
 ```
 
@@ -430,8 +429,64 @@ $query  = $this->db->select('table_name')
                     ), 'OR')
                     ->execute();
 $result = $query->fetchAll();
-                        'col_3' => 'value3',
+
 // Produces: SELECT * FROM table_name WHERE (col_1 NOT LIKE '%value1%' AND col_2 NOT LIKE '%value2%') AND (col_3 NOT LIKE '%value3%' OR col_4 NOT LIKE '%value4%') 
+```
+
+### $this->db->orderBy()
+
+```php
+$query  = $this->db->select('table_name')
+                    ->orderBy('id', 'DESC')
+                    ->execute();
+$result = $query->fetchAll();
+                        
+// Produces: SELECT * FROM table_name ORDER BY id DESC
+
+$query  = $this->db->select('table_name')
+                    ->orderBy('title DESC, name ASC')
+                    ->execute();
+$result = $query->fetchAll();
+                        
+// Produces: SELECT * FROM table_name ORDER BY title DESC, name ASC
+```
+
+### $this->db->limit()
+Lets you limit the number of rows you would like returned by the query:
+```php
+$query  = $this->db->select('table_name')
+                    ->limit(10)
+                    ->execute();
+$result = $query->fetchAll();
+                        
+// Produces: SELECT * FROM table_name LIMIT 10
+```
+
+The second parameter lets you set a result offset.
+
+```php
+$query  = $this->db->select('table_name')
+                    ->limit(10, 20)
+                    ->execute();
+$result = $query->fetchAll();
+                        
+// Produces: SELECT * FROM table_name LIMIT 20, 10
+```
+
+```php
+$query  = $this->db->select('table_name')
+                    ->orderBy('id', 'DESC')
+                    ->execute();
+$result = $query->fetchAll();
+                        
+// Produces: SELECT * FROM table_name ORDER BY id DESC
+
+$query  = $this->db->select('table_name')
+                    ->orderBy('title DESC, name ASC')
+                    ->execute();
+$result = $query->fetchAll();
+                        
+// Produces: SELECT * FROM table_name ORDER BY title DESC, name ASC
 ```
 
 
