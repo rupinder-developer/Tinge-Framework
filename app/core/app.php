@@ -10,7 +10,7 @@ class App {
 
     public function __construct() {
         $url = $this->parseURL();
-        if (file_exists('app/routes/'.$url[0].'.php')) {
+        if (isset($url[0]) && file_exists('app/routes/'.$url[0].'.php')) {
             $this->route = $url[0];
             unset($url[0]);
         } else {
