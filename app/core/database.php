@@ -6,12 +6,12 @@
  */
 namespace MySQL;
 
-require_once dirname(__FILE__).'/config.php';
 
 class Database {
     /**
      * Private Variables
      *
+     * @var Boolean    $isConnected
      * @var Connection $handler
      * @var array      $bindParams
      * @var array      $updateCols 
@@ -24,6 +24,7 @@ class Database {
      * @var string     $cols     // Columns for projection
      * @var string     $limit
      */
+    private $isConnected;
     private $bindParams;
     private $updateCols;
     private $handler;
@@ -37,28 +38,30 @@ class Database {
 
     function __construct() {
         // Initialization
-        $this->bindParams = [];
-        $this->updateCols = [];
-        $this->orderBy    = '';
-        $this->select     = '';
-        $this->update     = '';
-        $this->delete     = '';
-        $this->limit      = '';
-        $this->where      = [];
-        $this->cols       = '*';
+        $this->isConnected = false;
+        $this->bindParams  = [];
+        $this->updateCols  = [];
+        $this->orderBy     = '';
+        $this->select      = '';
+        $this->update      = '';
+        $this->delete      = '';
+        $this->limit       = '';
+        $this->where       = [];
+        $this->cols        = '*';
     }//end __construct()
 
     public function __destruct() {
-        $this->handler    = null;
-        $this->bindParams = null;
-        $this->updateCols = null;
-        $this->orderBy    = null;
-        $this->select     = null;
-        $this->update     = null;
-        $this->delete     = null;
-        $this->limit      = null;
-        $this->where      = null;
-        $this->cols       = null;
+        $this->isConnected = null;
+        $this->handler     = null;
+        $this->bindParams  = null;
+        $this->updateCols  = null;
+        $this->orderBy     = null;
+        $this->select      = null;
+        $this->update      = null;
+        $this->delete      = null;
+        $this->limit       = null;
+        $this->where       = null;
+        $this->cols        = null;
     }//end __destruct()
 
     public function connect() {
@@ -66,8 +69,11 @@ class Database {
             // PDO Connection
             $this->handler = new \PDO('mysql:host='.HOSTNAME.';dbname='.DB_NAME, USERNAME, PASSWORD);
             $this->handler->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            $this->isConnected = true;
             return $this->handler;
         } catch (\PDOException $e) {
+            header('Content-Type: application/json');
+            http_response_code(500);
             die(json_encode([
                 'response' => false,
                 'msg' => $e->getMessage()
@@ -155,27 +161,36 @@ class Database {
     }//end limit()
 
     public function execute() {
-        if (count($this->where) > 0) {
-            $where = ' WHERE '.implode(' AND ',$this->where);
+        if ($this->isConnected === true) {
+            if (count($this->where) > 0) {
+                $where = ' WHERE '.implode(' AND ',$this->where);
+            } else {
+                $where = '';
+            }
+            
+            if ($this->select) {
+                $query = $this->handler->prepare('SELECT '.$this->cols.' FROM '.$this->select.$where.$this->orderBy.$this->limit);
+                $query->execute($this->bindParams);
+                return $query;
+            } else if ($this->update) {
+                $query = $this->handler->prepare("UPDATE {$this->update} SET ".implode(', ', $this->updateCols).$where);
+                $query->execute($this->bindParams);
+                return $query;
+            } else if ($this->delete) {
+                $query = $this->handler->prepare("DELETE FROM {$this->delete}".$where);
+                $query->execute($this->bindParams);
+                return $query;
+            } else {
+                return null;
+            }          
         } else {
-            $where = '';
+            header('Content-Type: application/json');
+            http_response_code(500);
+            die(json_encode([
+                'response' => false,
+                'msg' => 'Failed to initialize database connection, $this->db->connect() method is missing.'
+            ]));
         }
-        
-        if ($this->select) {
-            $query = $this->handler->prepare('SELECT '.$this->cols.' FROM '.$this->select.$where.$this->orderBy.$this->limit);
-            $query->execute($this->bindParams);
-            return $query;
-        } else if ($this->update) {
-            $query = $this->handler->prepare("UPDATE {$this->update} SET ".implode(', ', $this->updateCols).$where);
-            $query->execute($this->bindParams);
-            return $query;
-        } else if ($this->delete) {
-            $query = $this->handler->prepare("DELETE FROM {$this->delete}".$where);
-            $query->execute($this->bindParams);
-            return $query;
-        } else {
-            return null;
-        }        
 
         // Cleaning up resources
         $this->bindParams = [];
@@ -186,20 +201,29 @@ class Database {
         $this->delete     = '';
         $this->limit      = '';
         $this->where      = [];
-        $this->cols       = '*';
+        $this->cols       = '*';  
     }//end execute()
 
     public function insert($tableName, $values) {
-        $col        = [];
-        $val        = [];
-        $bindParams = [];
-        foreach($values as $key => $value) {
-            array_push($col, $key);
-            array_push($val, ":{$key}");
-            $bindParams[":{$key}"] = $value;
+        if ($this->isConnected === true) {  
+            $col        = [];
+            $val        = [];
+            $bindParams = [];
+            foreach($values as $key => $value) {
+                array_push($col, $key);
+                array_push($val, ":{$key}");
+                $bindParams[":{$key}"] = $value;
+            }
+            $query = $this->handler->prepare("INSERT INTO {$tableName}(".implode(', ', $col).") VALUES(".implode(', ', $val).")");
+            return $query->execute($bindParams);
+        } else {
+            header('Content-Type: application/json');
+            http_response_code(500);
+            die(json_encode([
+                'response' => false,
+                'msg' => 'Failed to initialize database connection, $this->db->connect() method is missing.'
+            ]));
         }
-        $query = $this->handler->prepare("INSERT INTO {$tableName}(".implode(', ', $col).") VALUES(".implode(', ', $val).")");
-        return $query->execute($bindParams);
     }//end insert()
 
     public function update($tableName, $values) {
@@ -221,21 +245,23 @@ class Database {
     }//end query()
 
     public function installSQL($url) {
-        if ($this->connect() === true) {
+        if ($this->isConnected === true) { 
             $stmt = file_get_contents($url);
             $query = $this->handler->prepare($stmt);
-            if ($query->execute() === true) {
-                return true;
-            } else {
-                return false;
-            }
+            return $query->execute();
         } else {
-            return false;
+            header('Content-Type: application/json');
+            http_response_code(500);
+            die(json_encode([
+                'response' => false,
+                'msg' => 'Failed to initialize database connection, $this->db->connect() method is missing.'
+            ]));
         }
+       
     }//end installSQL()
 
     public function scanTables() {
-        if ($this->connect() === true) {
+        if ($this->isConnected === true) {  
             $sql = 'SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = "BASE TABLE" AND ';
             $sql .= 'TABLE_SCHEMA=:dbName';
             $query = $this->handler->prepare($sql);
@@ -244,6 +270,13 @@ class Database {
             $query->execute();
             $array = $query->fetchAll(\PDO::FETCH_ASSOC);
             return $array;
-        }
+        } else {
+            header('Content-Type: application/json');
+            http_response_code(500);
+            die(json_encode([
+                'response' => false,
+                'msg' => 'Failed to initialize database connection, $this->db->connect() method is missing.'
+            ]));
+        }   
     }//end scanTables()
 }//end class

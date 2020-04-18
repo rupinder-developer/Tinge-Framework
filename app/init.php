@@ -1,5 +1,6 @@
 <?php
 
+require_once 'core/config.php';
 require_once 'core/app.php';
 require_once 'core/jwt.php';
 require_once 'core/response.php';
