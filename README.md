@@ -265,7 +265,7 @@ class Example extends Router {
 
 ### How to interact with MySQL Database inside your Model Class?
 
-If you intend to use a database, open the app/core/config.php file with a text editor and set your database settings. You can also create global variables inside congfig.php file which you can access all over the framework. 
+If you intend to use a database, open the app/core/config.php file with a text editor and set your database settings. You can also create global variables inside config.php file which you can access all over the framework. 
 
 **./app/core/config.php**
 ```php
