@@ -576,9 +576,9 @@ Helpers are the custom classes which you can access all over the framework.
 ### How to create Helper?
 You can simply create a Helper by creating php file inside your **./app/helpers** directory with the name as same as your model name. 
 
-For example, If you want to create a Model with the name **Authorization**, then you have to create a file named as Member.php inside your models directory.
+For example, If you want to create a Helper with the name **Authorization**, then you have to create a file named as Authorization.php inside your helpers directory.
 
-**Authorization.php** *(./app/models)*
+**Authorization.php** *(./app/helpers)*
 ```php
 <?php
 class Authorization {
