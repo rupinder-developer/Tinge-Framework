@@ -171,18 +171,15 @@ class Database {
             if ($this->select) {
                 $query = $this->handler->prepare('SELECT '.$this->cols.' FROM '.$this->select.$where.$this->orderBy.$this->limit);
                 $query->execute($this->bindParams);
-                return $query;
             } else if ($this->update) {
                 $query = $this->handler->prepare("UPDATE {$this->update} SET ".implode(', ', $this->updateCols).$where);
                 $query->execute($this->bindParams);
-                return $query;
             } else if ($this->delete) {
                 $query = $this->handler->prepare("DELETE FROM {$this->delete}".$where);
                 $query->execute($this->bindParams);
-                return $query;
             } else {
-                return null;
-            }          
+                $query = null;
+            }              
         } else {
             header('Content-Type: application/json');
             http_response_code(500);
@@ -202,6 +199,8 @@ class Database {
         $this->limit      = '';
         $this->where      = [];
         $this->cols       = '*';  
+        
+        return $query;
     }//end execute()
 
     public function insert($tableName, $values) {
