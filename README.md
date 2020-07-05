@@ -1,6 +1,8 @@
-# Tinge Framework - v2
+# Tinge Framework - v2.1
 
 **What's New?**
+
+- Fix Bugs
 - Improve Active Records
     - Implemented Method Chaining
     - New Active Record's methods
